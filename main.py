@@ -17,7 +17,7 @@ Builder.load_file('main.kv')
 class RoundedButton(ButtonBehavior, Label):
 
 	def collide_point(self, x, y):
-		return Vector(x, y).distance(self.center) <= self.width / 2.1
+		return Vector(x, y).distance(self.center) <= self.width / 2
 
 class CalcWidgets(Widget):
 	result = StringProperty()
@@ -157,6 +157,16 @@ class CalcWidgets(Widget):
 				self.result = '0'
 			else:
 				self.result = st
+
+	def on_touch_move(self, touch):
+		if self.ids.label1.collide_point(*touch.pos):
+			self.moveCount += 1
+			if self.moveCount == 5:
+				self.LastStringDelete()
+
+	def on_touch_up(self, touch):
+		if self.ids.label1.collide_point(*touch.pos):
+			self.moveCount = 0
 
 class CalcApp(App):
 	
