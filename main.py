@@ -22,7 +22,6 @@ class RoundedButton(ButtonBehavior, Label):
 class CalcWidgets(Widget):
 	result = StringProperty()
 	currentOp = StringProperty()
-	splits = NumericProperty(4)
 	isPressed = BooleanProperty()
 	moveCount = NumericProperty(0)
 
@@ -169,13 +168,18 @@ class CalcWidgets(Widget):
 			self.moveCount = 0
 
 class CalcApp(App):
+	splits = NumericProperty(4)
+	padding = NumericProperty(8)
+	width = NumericProperty(360)
+	height = NumericProperty(640)
 	
 	def __init__(self, **kwargs):
 		super(CalcApp, self).__init__(**kwargs)
 		self.title = '電卓'
+		Window.size = (self.width, self.height)
+		self.width, self.height = Window.size
 
 	def build(self):
-		Window.size = (360, 640)
 		return CalcWidgets()
 
 if __name__=='__main__':

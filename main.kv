@@ -4,6 +4,7 @@
     markup: True
     font_size: self.width / 2
     size_hint: (None, None)
+    size: (app.width / app.splits - app.padding, app.width / app.splits - app.padding)
     color: (0, 0, 0, 1)
     background_normal: ''
     background_color: (0, 0, 0, 0)
@@ -37,7 +38,7 @@
         Label:
             id: label1
             text: root.result
-            size_hint: (1, 1)
+            size_hint: (1, 1.2)
             text_size: (self.width, self.height)
             font_size: root.width / 11 if root.result=='数値ではありません' else root.width / 5
             halign: 'right'
@@ -49,105 +50,89 @@
             on_touch_up: root.moveCount = 0
 
         BoxLayout:
-            spacing: root.splits * 5 / (root.splits - 1)
+            spacing: app.splits * app.padding / (app.splits - 1)
             DarkGrayRoundedButton:
                 id: clear
                 text: "C" if root.isPressed==True else "AC"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.ClearPressed()
             DarkGrayRoundedButton:
                 id: plusminus
                 text: "+/-"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.PlusMinusPressed()
             DarkGrayRoundedButton:
                 id: percent
                 text: "%"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.PercentPressed()
             OrangeRoundedButton:
                 id: divide
                 text: "÷"
                 color: (0,0,0,1) if root.currentOp == '/' else (1,1,1,1)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.CalcPressed('/')
         BoxLayout:
-            spacing: root.splits * 5 / (root.splits - 1)
+            spacing: app.splits * app.padding / (app.splits - 1)
             LightGrayRoundedButton:
                 id: seven
                 text: "7"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(7)
             LightGrayRoundedButton:
                 id: eight
                 text: "8"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(8)
             LightGrayRoundedButton:
                 id: nine
                 text: "9"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(9)
             OrangeRoundedButton:
                 id: multiply
                 text: "x"
                 color: (0,0,0,1) if root.currentOp == '*' else (1,1,1,1)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.CalcPressed('*')
         BoxLayout:
-            spacing: root.splits * 5 / (root.splits - 1)
+            spacing: app.splits * app.padding / (app.splits - 1)
             LightGrayRoundedButton:
                 id: four
                 text: "4"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(4)
             LightGrayRoundedButton:
                 id: five
                 text: "5"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(5)
             LightGrayRoundedButton:
                 id: six
                 text: "6"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(6)
             OrangeRoundedButton:
                 id: subtract
                 text: "−"
                 color: (0,0,0,1) if root.currentOp == '-' else (1,1,1,1)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.CalcPressed('-')
         BoxLayout:
-            spacing: root.splits * 5 / (root.splits - 1)
+            spacing: app.splits * app.padding / (app.splits - 1)
             LightGrayRoundedButton:
                 id: one
                 text: "1"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(1)
             LightGrayRoundedButton:
                 id: two
                 text: "2"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(2)
             LightGrayRoundedButton:
                 id: three
                 text: "3"
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.NumPressed(3)
             OrangeRoundedButton:
                 id: add
                 text: "+"
                 color: (0,0,0,1) if root.currentOp == '+' else (1,1,1,1)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.CalcPressed('+')
         BoxLayout:
-            spacing: root.splits * 5 / (root.splits - 1)
+            spacing: app.splits * app.padding / (app.splits - 1)
             Button:
                 id: zero
                 text: "0"
                 color: (0, 0, 0, 1)
                 size_hint: (1, None)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
+                size: (app.width / app.splits - app.padding, app.width / app.splits - app.padding)
                 font_size: self.width / 3.6
                 on_press: root.NumPressed(0)
                 background_normal: ''
@@ -158,15 +143,13 @@
                     RoundedRectangle:
                         size: self.size
                         pos: self.pos
-                        radius: [(root.width / root.splits - 5) / 2,]
+                        radius: [(app.width / app.splits - app.padding) / 2,]
             LightGrayRoundedButton:
                 id: period
                 text: "."
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.PeriodPressed()
             OrangeRoundedButton:
                 id: equal
                 text: "="
                 color: (1,1,1,1)
-                size: (root.width / root.splits - 5, root.width / root.splits - 5)
                 on_press: root.EqualPressed()
