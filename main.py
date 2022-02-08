@@ -27,43 +27,12 @@ class CalcWidgets(Widget):
 
 	def __init__(self, **kwargs):
 		super(CalcWidgets, self).__init__(**kwargs)
-		self._keyboard = Window.request_keyboard(self._keyboard_closed, self)
-		self._keyboard.bind(on_key_down=self._on_keyboard_down)
 		self.result = '0'
 		self.currentOp = ''
 		self.stackedValue = 0
 		self.isPressed = False
 		self.afterCalc = False
 		self.isStacked = False
-
-	def _keyboard_closed(self):
-		self._keyboard.unbind(on_key_down=self._on_keyboard_down)
-		self._keyboard = None
-
-	def _on_keyboard_down(self, keyboard, keycode, text, modifiers):
-		if len(modifiers) == 1:
-			if modifiers[0] == 'shift' and keycode[1] == ';':
-				self.CalcPressed('+')
-			elif modifiers[0] == 'shift' and keycode[1] == ':':
-				self.CalcPressed('*')
-			elif modifiers[0] == 'shift' and keycode[1] == '5':
-				self.PercentPressed()
-				return True
-		elif keycode[1] in ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']:
-			self.NumPressed(int(keycode[1]))
-		elif keycode[1] == '.':
-			self.PeriodPressed()
-		elif keycode[1] == '-':
-			self.CalcPressed('-')
-		elif keycode[1] == '/':
-			self.CalcPressed('/')
-		elif keycode[1] == 'enter':
-			self.EqualPressed()
-		elif keycode[1] == 'c':
-			self.ClearPressed()
-		elif keycode[1] == 'backspace':
-			self.LastStringDelete()
-		return True
 
 	def ClearPressed(self):
 		self.isPressed = False
@@ -105,6 +74,8 @@ class CalcWidgets(Widget):
 	def CalcPressed(self, calc):
 		self.afterCalc = True
 		self.isStacked = True
+		if self.result == '数値ではありません':
+			return
 		self.stackedValue = float(self.result)
 		if calc == '+':
 			self.currentOp = '+'
@@ -127,6 +98,8 @@ class CalcWidgets(Widget):
 		self.afterCalc = True
 		self.isStacked = False
 		self.isPressed = False
+		if self.result == '数値ではありません':
+			return
 		value = float(self.result)
 		if self.currentOp == '+':
 			self.stackedValue += value
@@ -170,13 +143,12 @@ class CalcWidgets(Widget):
 class CalcApp(App):
 	splits = NumericProperty(4)
 	padding = NumericProperty(8)
-	width = NumericProperty(360)
-	height = NumericProperty(640)
+	width = NumericProperty()
+	height = NumericProperty()
 	
 	def __init__(self, **kwargs):
 		super(CalcApp, self).__init__(**kwargs)
 		self.title = '電卓'
-		Window.size = (self.width, self.height)
 		self.width, self.height = Window.size
 
 	def build(self):
